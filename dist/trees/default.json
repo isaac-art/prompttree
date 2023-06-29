@@ -6,9 +6,14 @@
         "target":[{"id":"0__handle-left","position":"left","x":-4,"y":63.75,"width":8,"height":8}]},
         "computedPosition":{"x":0,"y":0,"z":0},
         "selected":false,"dragging":false,"resizing":false,"initialized":true,
-        "data":{"prompt":"a cat in a hat",
-        "images":[]},
-        "events":{},"id":"0","generating":false,
+        "data":{
+            "prompt":"a cat in a hat",
+            "images":[], 
+            "generating":false,
+            "width":512,
+            "height":512
+        },
+        "events":{},"id":"0",
         "position":{"x":100,"y":100},"sourcePosition":"right"
     }
 ]

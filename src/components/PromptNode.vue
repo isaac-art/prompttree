@@ -24,12 +24,58 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  generating: {
-    type: Boolean
-  }
+  events : {
+    type: Object,
+    required: true,
+  },
+  type : {
+    type: String,
+    required: true,
+  },
+  resizing : {
+    type: Boolean,
+    required: true,
+  },
+  dragging : {
+    type: Boolean,
+    required: true,
+  },
+  connectable : {
+    type: Boolean,
+    required: true,
+  },
+  dimensions : {
+    type: Object,
+    required: true,
+  },
+  isValidTargetPos : {
+    required: false,
+  },
+  isValidSourcePos : {
+    required: false,
+  },
+  parent : {
+    required: false,
+  },
+  zIndex : {
+    type: Number,
+    required: true,
+  },
+  targetPosition : {
+    type: String,
+  },
+  sourcePosition : {
+    type: String,
+  },
+  label : {
+    required: true,
+  },
+  dragHandle : {
+    required: true,
+  },
 })
 
-const emit = defineEmits(['forkPrompt', 'unselect', 'generate', 'deleteNode'])
+const emit = defineEmits(['updateNodeInternals','forkPrompt', 'unselect', 'generate', 'deleteNode'])
 
 function forkPrompt(){
   // console.log('forkPrompt')
@@ -39,8 +85,7 @@ function forkPrompt(){
 function onPromptChange(e){
   if (e.key == 'Enter'){
     console.log('onPromptChange', e.target.value)
-    emit('unselect')
-    emit('generate')
+    gen()
   }
 }
 
@@ -59,7 +104,7 @@ function deleteNode(){
   <div id="delete" v-if="props.selected"> 
     <button @click="deleteNode">X</button> 
   </div>
-  <div class="promptnodecontainer" >
+  <div class="promptnodecontainer">
     <Handle type="target" :position="Position.Left"  :on-connect="onConnect"/>
     <Handle type="source" :position="Position.Right" :on-connect="onConnect"/>
 
@@ -68,23 +113,34 @@ function deleteNode(){
       :is-visible="props.selected"
       :position="Position.Bottom"
     >
+    <span v-if="!props.data.generating">
       <button @click="gen"><span v-if="props.data.images.length ==0">gen</span><span v-else>regen</span></button>
       <button @click="forkPrompt" v-if="props.data.images.length > 0">fork</button>
+    </span>
     </NodeToolbar>
 
-    <div class="promptnode" :class="{generating: props.generating, selected: props.selected}">
+    <div class="promptnode" :class="{generating: props.data.generating, selected: props.selected}">
 
       <textarea type="text" 
-        v-if="props.selected && props.data.images.length == 0 && !props.generating" 
+        v-if="props.selected && props.data.images.length == 0 && !props.data.generating" 
         :focus="props.selected"
         v-model="props.data.prompt"
         @keypress="onPromptChange"
-        autofocus
       ></textarea>
       <p v-else>
-        {{ props.data.prompt }}
+        <span v-if="props.data.generating">...generating...</span>
+        <span v-else>
+          {{ props.data.prompt }}
+        </span>
       </p>
-
+      <span v-if="selected && props.data.images.length == 0 && !props.data.generating">
+      <hr>
+        <input class="size_input" type="number" v-model="props.data.width" min="128" max="768" step="64" style="width: auto;"/>
+        x
+        <input class="size_input" type="number" v-model="props.data.height" min="128" max="768" step="64" style="width: auto;"/>
+      
+      </span>
+      <hr>
       <span v-for="(image, idx) in props.data.images"
           class="image" >
           <img :src="image.url"/>
@@ -125,14 +181,14 @@ function deleteNode(){
   width: 256px;
   height: auto;
   min-height: 160px;
-  background: #eee;
+  background: #fff;
 }
 .generating{
-  border: 2px solid rgb(231, 151, 13) !important;
+  border: 2px dashed rgb(231, 151, 13) !important;
   border-radius: 4px;
 }
 .selected {
-  border: 2px solid rgb(179, 14, 72) !important;
+  border: 2px dashed rgb(179, 14, 72) !important;
   border-radius: 4px;
 }
 textarea{
