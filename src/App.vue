@@ -284,7 +284,8 @@ onMounted(() => {
     <div id="settings" class="modal">
 
       <div class="settings_row">
-        <label for="api_key_input">stability api key</label>
+        <label for="api_key_input">stability api key <small><a href="https://platform.stability.ai/docs/getting-started/authentication" target="_blank">see docs</a></small>
+        </label>
         <input id="api_key_input" name="api_key_input" 
             type="text" v-model="apiKey" class="api_key_input"/>
       </div>
@@ -326,6 +327,12 @@ onMounted(() => {
   color: white;
   padding: 20px;
   border-radius: 3px;
+}
+#settings small{
+  float: right;
+}
+#settings a{
+  color: azure;
 }
 .settings_btn_close{
   float: right;
