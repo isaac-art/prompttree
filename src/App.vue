@@ -299,9 +299,7 @@ onMounted(() => {
       <Controls />
     </VueFlow>
 
-    <div id="credits">
-      <p><a href="https://twitter.com/clublandgrace" target="_blank">@clublandgrace</a></p>
-    </div>
+    
 
     <div id="help" class="modal">
       <div class="settings_row">
