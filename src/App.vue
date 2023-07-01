@@ -316,6 +316,7 @@ onMounted(() => {
       <Panel :position="PanelPosition.TopRight" style="display: flex; gap: 5px">
         <button @click="toggleHelp">?</button>
         <button @click="toggleSettings">settings</button>
+        <button href="https://github.com/isaac-art/prompttree"><i class=" white fa fa-github" aria-hidden="true"></i></button>
       </Panel>
 
       <Controls />
@@ -381,6 +382,9 @@ onMounted(() => {
 <style >
 *{
   font-family: 'IBM Plex Mono', monospace;
+}
+.white{
+  color: white;
 }
 #credits{
   position: fixed;
