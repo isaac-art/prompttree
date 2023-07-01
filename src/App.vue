@@ -316,7 +316,9 @@ onMounted(() => {
       <Panel :position="PanelPosition.TopRight" style="display: flex; gap: 5px">
         <button @click="toggleHelp">?</button>
         <button @click="toggleSettings">settings</button>
-        <button href="https://github.com/isaac-art/prompttree"><i class=" white fa fa-github" aria-hidden="true"></i></button>
+        <a href="https://github.com/isaac-art/prompttree" target="_blank">
+          <button><i class=" white fa fa-github" aria-hidden="true"></i></button>
+          </a>
       </Panel>
 
       <Controls />
