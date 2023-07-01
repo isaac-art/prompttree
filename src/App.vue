@@ -1,6 +1,6 @@
 <script setup>
 
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch } from "vue";
 import { Panel, PanelPosition, VueFlow, isNode, useVueFlow , Position, MarkerType} from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
@@ -250,6 +250,14 @@ const cfg = ref(7)
 const width = ref(512)
 const height = ref(512)
 
+watch(apiKey, (value) => {localStorage.setItem("apiKey", value);});
+watch(engineId, (value) => {localStorage.setItem("engineId", value);});
+watch(apiHost, (value) => {localStorage.setItem("apiHost", value);});
+watch(numSamples, (value) => {localStorage.setItem("numSamples", value);});
+watch(numSteps, (value) => {localStorage.setItem("numSteps", value);});
+watch(cfg, (value) => {localStorage.setItem("cfg", value);});
+watch(width, (value) => {localStorage.setItem("width", value);});
+watch(height, (value) => {localStorage.setItem("height", value);});
 
 onConnect(addEdges)
 
@@ -260,7 +268,21 @@ onMounted(() => {
     console.log(response);
     elements.value = response.data
   })
+  //get the settings from localstorage
+  apiKey.value = localStorage.getItem("apiKey") || "";
+  engineId.value = localStorage.getItem("engineId") || "stable-diffusion-xl-beta-v2-2-2";
+  apiHost.value = localStorage.getItem("apiHost") || "https://api.stability.ai";
+  numSamples.value = parseInt(localStorage.getItem("numSamples")) || 4;
+  numSteps.value = parseInt(localStorage.getItem("numSteps")) || 30;
+  cfg.value = parseInt(localStorage.getItem("cfg")) || 7;
+  width.value = parseInt(localStorage.getItem("width")) || 512;
+  height.value = parseInt(localStorage.getItem("height")) || 512;
 })
+
+
+
+
+
 </script>
 
 <template>
@@ -336,7 +358,7 @@ onMounted(() => {
             type="text" v-model="apiKey" class="api_key_input" />
       </div>
       <div class="settings_row">
-        your api key is not stored and is only used to make frontend requests to the stability.ai api
+        your api key is only stored in browser localstorage and is only used to make frontend requests to the stability.ai api
       </div>
       <div class="settings_row">
         <label for="engine_id_input">engine id</label>
