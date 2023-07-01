@@ -18,18 +18,28 @@ const { onConnect, addEdges, setTransform, toObject } = useVueFlow({
   maxZoom: 4,
 })
 
-
 function newTree(){
-  // load the default json file into elements
-  axios.get(defaultjson)
+  // load the new json file into elements
+  axios.get(newjson)
   .then(function (response) {
     console.log(response);
     elements.value = response.data
   })
 }
 
+function demoTree(){
+  // load the demo json file into elements
+  axios.get(demojson)
+  .then(function (response) {
+    console.log(response);
+    elements.value = response.data
+  })
+}
+
+
 const elements = ref([])
-const defaultjson = './trees/default.json'
+const demojson = './trees/default.json'
+const newjson = './trees/new.json'
 
 function loadDataStart(){
   //call the file open dialog
@@ -263,11 +273,7 @@ onConnect(addEdges)
 
 onMounted(() => {
   // load the default json file into elements
-  axios.get(defaultjson)
-  .then(function (response) {
-    console.log(response);
-    elements.value = response.data
-  })
+  demoTree()
   //get the settings from localstorage
   apiKey.value = localStorage.getItem("apiKey") || "";
   engineId.value = localStorage.getItem("engineId") || "stable-diffusion-xl-beta-v2-2-2";
@@ -277,25 +283,24 @@ onMounted(() => {
   cfg.value = parseInt(localStorage.getItem("cfg")) || 7;
   width.value = parseInt(localStorage.getItem("width")) || 512;
   height.value = parseInt(localStorage.getItem("height")) || 512;
+
+  if(apiKey.value = ""){
+    toggleSettings();
+  }
 })
-
-
-
-
-
 </script>
 
 <template>
-    <!-- <div id="nav">
-      prompt tree
-    </div> -->
+
     <VueFlow v-model="elements" 
       :default-edge-options="{ type: 'smoothstep' }"
-      :default-viewport="{ zoom: 0.75 }"
+      :default-viewport="{ zoom: 1. }"
       :fit-view-on-init="false"
       :snap-to-grid="true"
       class="vue-flow-outer"
       >
+      <Background variant="lines" gap="40"/>
+
       <template #node-prompt="props">
         <PromptNode 
           v-bind="props"
@@ -306,7 +311,6 @@ onMounted(() => {
         />
       </template>
 
-      <Background />
       <Panel :position="PanelPosition.TopLeft" style="display: flex; gap: 5px">
         <button @click="saveData">save</button>
         <button @click="loadDataStart">load</button>
@@ -323,7 +327,6 @@ onMounted(() => {
 
       <Controls />
     </VueFlow>
-
     
 
     <div id="help" class="modal">
@@ -385,6 +388,7 @@ onMounted(() => {
 *{
   font-family: 'IBM Plex Mono', monospace;
 }
+
 .white{
   color: white;
 }
@@ -414,7 +418,7 @@ onMounted(() => {
   background: #333;
   color: white;
   padding: 20px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 #help{
   display: none;
@@ -422,7 +426,7 @@ onMounted(() => {
   min-width: 500px;
 }
 #settings{
-  display: block;
+  display: none;
 }
 #settings small{
   float: right;

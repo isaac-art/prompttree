@@ -176,12 +176,13 @@ function deleteNode(){
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
-  border-radius: 4px;
+  border-radius: 2px;
   max-width: 256px;
   width: 256px;
   height: auto;
   min-height: 160px;
   background: #fff;
+  /* box-shadow: rgba(0, 0, 0, 0.7) 10px 4px 12px; */
 }
 .generating{
   border: 2px dashed rgb(231, 151, 13) !important;
@@ -189,7 +190,7 @@ function deleteNode(){
 }
 .selected {
   border: 2px dashed rgb(179, 14, 72) !important;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 textarea{
   margin-top: -17px;
