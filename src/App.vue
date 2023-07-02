@@ -271,15 +271,15 @@ watch(height, (value) => {localStorage.setItem("height", value);});
 
 onConnect(addEdges)
 
-onMounted(() => {
-  // check if key has been passed in url ?key=
-  let url = new URL(window.location.href);
-  let key = url.searchParams.get("key");
-  if(key){
-    apiKey.value = key;
-    localStorage.setItem("apiKey", key);
-  }
+watch(apiKey, (newValue, oldValue) => {
+  console.log('apiKey value changed', newValue)
+})
+// check if key has been passed in url ?key=
+let url = new URL(window.location.href);
+let key = url.searchParams.get("key");
+if(key){ apiKey.value = key; }
 
+onMounted(() => {
   // load the default json file into elements
   demoTree()
   //get the settings from localstorage
@@ -293,7 +293,7 @@ onMounted(() => {
   height.value = parseInt(localStorage.getItem("height")) || 512;
 
 
-  if(apiKey.value = ""){
+  if(apiKey.value == ""){
     toggleSettings();
   }
 })
