@@ -1,0 +1,8 @@
+[{
+    "type":"prompt","dimensions":{"width":280,"height":174},
+    "handleBounds":{"source":[{"id":"0__handle-right","position":"right","x":276,"y":83,"width":8,"height":8}],
+    "target":[{"id":"0__handle-left","position":"left","x":-4,"y":83,"width":8,"height":8}]},
+    "computedPosition":{"x":105,"y":105,"z":0},"selected":false,"dragging":false,"resizing":false,"initialized":true,
+    "data":{"prompt":"...","images":[],"generating":false,"width":512,"height":512},
+    "events":{},"id":"0","position":{"x":105,"y":105},"sourcePosition":"right"
+}]
