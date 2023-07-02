@@ -272,6 +272,14 @@ watch(height, (value) => {localStorage.setItem("height", value);});
 onConnect(addEdges)
 
 onMounted(() => {
+  // check if key has been passed in url ?key=
+  let url = new URL(window.location.href);
+  let key = url.searchParams.get("key");
+  if(key){
+    apiKey.value = key;
+    localStorage.setItem("apiKey", key);
+  }
+
   // load the default json file into elements
   demoTree()
   //get the settings from localstorage
@@ -283,6 +291,7 @@ onMounted(() => {
   cfg.value = parseInt(localStorage.getItem("cfg")) || 7;
   width.value = parseInt(localStorage.getItem("width")) || 512;
   height.value = parseInt(localStorage.getItem("height")) || 512;
+
 
   if(apiKey.value = ""){
     toggleSettings();
@@ -361,7 +370,7 @@ onMounted(() => {
           <small><a href="https://platform.stability.ai/docs/getting-started/authentication" target="_blank">see docs</a></small>
         </label>
         <input id="api_key_input" name="api_key_input" 
-            type="text" v-model="apiKey" class="api_key_input" />
+            type="text" v-model="apiKey" class="api_key_input"/>
       </div>
       <div class="settings_row">
         your api key is only stored in browser localstorage and is only used to make frontend requests to the stability.ai api
